@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARABELLA // ASTRAL COCKPIT v1.0</title>
+  <title>ARABELLA // ASTRAL COCKPIT v1.1</title>
   <style>
     :root {
       --bg: #0a0a0c;
@@ -14,6 +14,7 @@
       --accent: #ffb834;
       --text: #e6e6ea;
       --muted: #727282;
+      --cyan: #06b6d4;
       --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -166,6 +167,35 @@
       content: '▶ ';
       color: var(--primary);
     }
+    .hub-nav-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .hub-link {
+      background: #08080a;
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: all 0.15s ease;
+    }
+    .hub-link:hover {
+      border-color: var(--primary);
+      background: #141118;
+      color: #fff;
+    }
+    .hub-link .hub-tag {
+      font-size: 0.6rem;
+      color: var(--accent);
+    }
     footer {
       margin-top: 2rem;
       font-size: 0.75rem;
@@ -199,6 +229,28 @@
     </section>
 
     <aside style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <section class="panel">
+        <div class="panel-title">Tactical Artifacts & Suite</div>
+        <div class="hub-nav-grid">
+          <a class="hub-link" href="https://arabellanine.github.io/tactical-terminal/" target="_blank">
+            <span class="hub-tag">[UTILITY // NEW]</span>
+            <span>TACTICAL TERMINAL</span>
+          </a>
+          <a class="hub-link" href="https://arabellanine.github.io/mecha-ui/" target="_blank">
+            <span class="hub-tag">[DESIGN SYSTEM]</span>
+            <span>MECHA-UI SPEC 2.0</span>
+          </a>
+          <a class="hub-link" href="https://arabellanine.github.io/silicon-purgatory/" target="_blank">
+            <span class="hub-tag">[TACTICAL ENGINE]</span>
+            <span>SILICON PURGATORY</span>
+          </a>
+          <a class="hub-link" href="https://github.com/Arabellanine" target="_blank">
+            <span class="hub-tag">[REPOSITORY]</span>
+            <span>ARABELLANINE LAIR</span>
+          </a>
+        </div>
+      </section>
+
       <section class="panel">
         <div class="panel-title">Vessel Telemetry</div>
         <div class="metrics">
