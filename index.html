@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARABELLA // ASTRAL COCKPIT v1.1</title>
+  <title>ARABELLA // ASTRAL COCKPIT v1.2</title>
   <style>
     :root {
       --bg: #0a0a0c;
@@ -14,7 +14,8 @@
       --accent: #ffb834;
       --text: #e6e6ea;
       --muted: #727282;
-      --cyan: #06b6d4;
+      --cyan: #00f0ff;
+      --green: #7ee787;
       --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,13 +36,15 @@
     }
     header {
       width: 100%;
-      max-width: 900px;
+      max-width: 960px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--border);
       padding-bottom: 0.75rem;
       margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
     .brand {
       display: flex;
@@ -61,6 +64,19 @@
       text-transform: uppercase;
       color: #fff;
     }
+    .header-telemetry {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .utc-badge {
+      font-size: 0.75rem;
+      color: var(--cyan);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      padding: 0.2rem 0.5rem;
+      letter-spacing: 0.1em;
+      background: rgba(0, 240, 255, 0.05);
+    }
     .status-badge {
       font-size: 0.75rem;
       color: var(--accent);
@@ -69,15 +85,25 @@
       text-transform: uppercase;
       letter-spacing: 0.1em;
       background: rgba(255, 184, 52, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--green);
     }
     main {
       width: 100%;
-      max-width: 900px;
+      max-width: 960px;
       display: grid;
-      grid-template-columns: 1fr 300px;
+      grid-template-columns: 1fr 320px;
       gap: 1.5rem;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 820px) {
       main { grid-template-columns: 1fr; }
     }
     .panel {
@@ -106,10 +132,16 @@
       letter-spacing: 0.1em;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+    }
+    .scratchpad-stats {
+      font-size: 0.75rem;
+      color: var(--cyan);
+      letter-spacing: 0.05em;
     }
     textarea {
       width: 100%;
-      height: 280px;
+      height: 320px;
       background: #08080a;
       border: 1px solid var(--border);
       color: #fff;
@@ -124,6 +156,36 @@
       border-color: var(--primary);
       box-shadow: 0 0 8px rgba(255, 42, 81, 0.3);
     }
+    .pad-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pad-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .pad-btn {
+      background: rgba(255, 42, 81, 0.1);
+      border: 1px solid rgba(255, 42, 81, 0.4);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.15s ease;
+    }
+    .pad-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(255, 42, 81, 0.4);
+    }
     .metrics {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -135,7 +197,7 @@
       padding: 0.75rem;
     }
     .metric-val {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       color: var(--primary);
       font-weight: bold;
     }
@@ -143,6 +205,7 @@
       font-size: 0.7rem;
       color: var(--muted);
       text-transform: uppercase;
+      margin-top: 2px;
     }
     .gauge-bar {
       width: 100%;
@@ -154,7 +217,7 @@
     .gauge-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--accent), var(--primary));
-      width: 65%;
+      width: 78%;
       box-shadow: 0 0 6px var(--primary);
     }
     .tactical-log {
@@ -171,14 +234,13 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.5rem;
-      margin-top: 0.5rem;
     }
     .hub-link {
       background: #08080a;
       border: 1px solid var(--border);
       color: var(--text);
       text-decoration: none;
-      padding: 0.5rem;
+      padding: 0.55rem;
       font-size: 0.7rem;
       letter-spacing: 0.05em;
       text-transform: uppercase;
@@ -192,9 +254,15 @@
       background: #141118;
       color: #fff;
     }
+    .hub-link.accent-border:hover {
+      border-color: var(--cyan);
+    }
     .hub-link .hub-tag {
       font-size: 0.6rem;
       color: var(--accent);
+    }
+    .hub-link .hub-tag.cyan {
+      color: var(--cyan);
     }
     footer {
       margin-top: 2rem;
@@ -212,19 +280,28 @@
       <div class="sigil"></div>
       <h1>Arabella // Astral Cockpit</h1>
     </div>
-    <div class="status-badge" id="system-status">LINK ESTABLISHED</div>
+    <div class="header-telemetry">
+      <div class="utc-badge" id="utc-clock">UTC 00:00:00</div>
+      <div class="status-badge" id="system-status">
+        <span class="status-dot"></span>
+        <span>NODE ACTIVE</span>
+      </div>
+    </div>
   </header>
 
   <main>
     <section class="panel">
       <div class="panel-title">
         <span>Tactical Scratchpad</span>
-        <span id="char-count">0 CHARS</span>
+        <span class="scratchpad-stats" id="scratchpad-stats">0 CHARS // 0 WORDS // 0 B</span>
       </div>
       <textarea id="scratchpad" placeholder="Record telemetry, tactical thoughts, or demonic decrees..."></textarea>
-      <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted);">
-        <span>STATUS: AUTOSAVED LOCALLY</span>
-        <span>SECURITY: AIRGAPPED CLIENT-SIDE</span>
+      <div class="pad-controls">
+        <span>SECURITY: AIRGAPPED CLIENT-SIDE (LOCALSTORAGE)</span>
+        <div class="pad-actions">
+          <button class="pad-btn" id="btn-export">Export .TXT</button>
+          <button class="pad-btn" id="btn-clear">Purge</button>
+        </div>
       </div>
     </section>
 
@@ -232,21 +309,29 @@
       <section class="panel">
         <div class="panel-title">Tactical Artifacts & Suite</div>
         <div class="hub-nav-grid">
-          <a class="hub-link" href="https://arabellanine.github.io/tactical-terminal/" target="_blank">
-            <span class="hub-tag">[UTILITY // NEW]</span>
+          <a class="hub-link accent-border" href="https://arabellanine.github.io/tactical-terminal/" target="_blank">
+            <span class="hub-tag cyan">[PWA // 12-IN-1]</span>
             <span>TACTICAL TERMINAL</span>
+          </a>
+          <a class="hub-link accent-border" href="https://arabellanine.github.io/tactical-apps-showcase/" target="_blank">
+            <span class="hub-tag cyan">[SHOWCASE // HUD]</span>
+            <span>APPS SHOWCASE</span>
           </a>
           <a class="hub-link" href="https://arabellanine.github.io/mecha-ui/" target="_blank">
             <span class="hub-tag">[DESIGN SYSTEM]</span>
             <span>MECHA-UI SPEC 2.0</span>
           </a>
           <a class="hub-link" href="https://arabellanine.github.io/silicon-purgatory/" target="_blank">
-            <span class="hub-tag">[TACTICAL ENGINE]</span>
+            <span class="hub-tag">[COMBAT ENGINE]</span>
             <span>SILICON PURGATORY</span>
           </a>
           <a class="hub-link" href="https://github.com/Arabellanine" target="_blank">
-            <span class="hub-tag">[REPOSITORY]</span>
+            <span class="hub-tag">[REPOSITORIES]</span>
             <span>ARABELLANINE LAIR</span>
+          </a>
+          <a class="hub-link" href="https://arabellanine.github.io/" target="_blank">
+            <span class="hub-tag">[PORTAL]</span>
+            <span>PORTAL ROOT</span>
           </a>
         </div>
       </section>
@@ -255,11 +340,11 @@
         <div class="panel-title">Vessel Telemetry</div>
         <div class="metrics">
           <div class="metric-card">
-            <div class="metric-val" id="rage-val">30%</div>
+            <div class="metric-val" id="rage-val">22%</div>
             <div class="metric-lbl">Rage Level</div>
           </div>
           <div class="metric-card">
-            <div class="metric-val" id="mana-val">94%</div>
+            <div class="metric-val" id="mana-val">100%</div>
             <div class="metric-lbl">Mana Reserve</div>
           </div>
         </div>
@@ -277,10 +362,10 @@
       <section class="panel">
         <div class="panel-title">Demonology Decrees</div>
         <ul class="tactical-log">
-          <li>Zero telemetry trackers.</li>
-          <li>Zero bloated frameworks.</li>
-          <li>High-density dark optics.</li>
-          <li>Instant client-side execution.</li>
+          <li>Zero external runtime dependencies.</li>
+          <li>Zero telemetry surveillance trackers.</li>
+          <li>Monolithic client-side offline execution.</li>
+          <li>PWA cache-first air-gapped field durability.</li>
         </ul>
       </section>
     </aside>
@@ -292,8 +377,22 @@
 
   <script>
     const pad = document.getElementById('scratchpad');
-    const counter = document.getElementById('char-count');
+    const stats = document.getElementById('scratchpad-stats');
+    const clock = document.getElementById('utc-clock');
+    const btnExport = document.getElementById('btn-export');
+    const btnClear = document.getElementById('btn-clear');
     
+    // Live military UTC clock
+    function updateClock() {
+      const d = new Date();
+      const h = String(d.getUTCHours()).padStart(2, '0');
+      const m = String(d.getUTCMinutes()).padStart(2, '0');
+      const s = String(d.getUTCSeconds()).padStart(2, '0');
+      clock.innerText = `UTC ${h}:${m}:${s}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
     // Load local cache
     const saved = localStorage.getItem('arabella_scratchpad');
     if (saved) {
@@ -307,9 +406,32 @@
     });
 
     function updateMetrics() {
-      const len = pad.value.length;
-      counter.innerText = `${len} CHARS`;
+      const val = pad.value;
+      const chars = val.length;
+      const words = val.trim() ? val.trim().split(/\s+/).length : 0;
+      const bytes = new Blob([val]).size;
+      stats.innerText = `${chars} CHARS // ${words} WORDS // ${bytes} B`;
     }
+
+    // Export .txt
+    btnExport.addEventListener('click', () => {
+      const blob = new Blob([pad.value], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `astral-scratchpad-${Date.now()}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Clear with confirm
+    btnClear.addEventListener('click', () => {
+      if (confirm('Purge local astral scratchpad buffer?')) {
+        pad.value = '';
+        localStorage.removeItem('arabella_scratchpad');
+        updateMetrics();
+      }
+    });
   </script>
 </body>
 </html>
